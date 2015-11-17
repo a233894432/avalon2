@@ -264,8 +264,8 @@ var duplexBinding = avalon.directive("duplex", {
 
 if (IEVersion) {
     avalon.bind(DOC, "selectionchange", function (e) {
-        var el = DOC.activeElement
-        if (el && typeof el.avalonSetter === "function") {
+        var el = DOC.activeElement || {}
+        if (typeof el.avalonSetter === "function" && !el.msFocus ) {
             el.avalonSetter()
         }
     })
@@ -374,20 +374,30 @@ new function () { // jshint ignore:line
     }
 } // jshint ignore:line
 function getCaret(ctrl) {
+    var start = NaN, end = NaN
     if (ctrl.setSelectionRange) {
-        return {
-            start: ctrl.selectionStart,
-            end: ctrl.selectionEnd
-        }
+        start = ctrl.selectionStart
+        end = ctrl.selectionEnd
+    } else if (document.selection && document.selection.createRange) {
+        var range = document.selection.createRange()
+        start = 0 - range.duplicate().moveStart('character', -100000)
+        end = start + range.text.length
     }
     return {
-        start: NaN,
-        end: NaN
+        start: start,
+        end: end
     }
 }
 function setCaret(ctrl, begin, end) {
     if (!ctrl.value || ctrl.readOnly)
         return
-    ctrl.selectionStart = begin
-    ctrl.selectionEnd = end
+    if (ctrl.createTextRange) {//IE6-9
+        var range = ctrl.createTextRange()
+        range.collapse(true);
+        range.moveStart("character", begin)
+        range.select()
+    } else {
+        ctrl.selectionStart = begin
+        ctrl.selectionEnd = end
+    }
 }
