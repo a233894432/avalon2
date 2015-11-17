@@ -152,7 +152,7 @@ var duplexBinding = avalon.directive("duplex", {
                     elem.msFocus = false
                     //IE6-11如果元素绑定了oninput onpropertychange事件会影响onchange事件触发
                     if(IEVersion && beforeFocus !== elem.value ){
-                        elem.value = beforeFocus
+                        beforeFocus = elem.value 
                         avalon.fireDom(elem, "change")
                     }
                 })
@@ -199,7 +199,7 @@ var duplexBinding = avalon.directive("duplex", {
                         }
                     }
                     elem.value = this.oldValue = curValue
-                    if (fixCaret) {
+                    if (fixCaret && !elem.readOnly) {
                         elem.selectionStart = elem.selectionEnd = pos
                     }
                 }

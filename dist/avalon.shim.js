@@ -5,7 +5,7 @@
  http://weibo.com/jslouvre/
  
  Released under the MIT license
- avalon.shim.js 1.5.5 built in 2015.11.12
+ avalon.shim.js 1.5.5 built in 2015.11.18
  support IE6+ and other browsers
  ==================================================*/
 (function(global, factory) {
@@ -4004,8 +4004,8 @@ var duplexBinding = avalon.directive("duplex", {
                 })
                 binding.bound("blur", function () {
                     elem.msFocus = false
-                    if(IEVersion && beforeFocus !== elem.value ){
-                        elem.value = beforeFocus
+                    if (IEVersion && beforeFocus !== elem.value) {
+                        beforeFocus = elem.value
                         avalon.fireDom(elem, "change")
                     }
                 })
@@ -4202,35 +4202,23 @@ new function () { // jshint ignore:line
         watchValueInTimer = avalon.tick
     }
 } // jshint ignore:line
-function getCaret(ctrl, start, end) {
+function getCaret(ctrl) {
     if (ctrl.setSelectionRange) {
-        start = ctrl.selectionStart
-        end = ctrl.selectionEnd
-    } else if (document.selection && document.selection.createRange) {
-        var range = document.selection.createRange()
-        start = 0 - range.duplicate().moveStart('character', -100000)
-        end = start + range.text.length
+        return {
+            start: ctrl.selectionStart,
+            end: ctrl.selectionEnd
+        }
     }
     return {
-        start: start,
-        end: end
+        start: NaN,
+        end: NaN
     }
 }
 function setCaret(ctrl, begin, end) {
     if (!ctrl.value || ctrl.readOnly)
         return
-    if (ctrl.createTextRange) {//IE6-9
-        setTimeout(function () {
-            var range = ctrl.createTextRange()
-            range.collapse(true);
-            range.moveStart("character", begin)
-            // range.moveEnd("character", end) #1125
-            range.select()
-        }, 17)
-    } else {
-        ctrl.selectionStart = begin
-        ctrl.selectionEnd = end
-    }
+    ctrl.selectionStart = begin
+    ctrl.selectionEnd = end
 }
 avalon.directive("effect", {
     priority: 5,
