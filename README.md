@@ -1,5 +1,14 @@
+#avalon1.5.6
+1. 添加扫描后的回调
+   在目标DIV加上ms-controller="test", $id为test的VM监听一个"ms-scan-end"回调
+```
+vm.$watch("ms-scan-end", function(div){
+   //div为绑定的元素
+})
+```
+
 #avalon1.5.5
-1. fix 光标问题
+1. 终于比较完美地解决光标问题
 2. fix data-duplex-changed执行两次的BUG
 3. 启动全新的UI库 [avalon.bootstrap](https://github.com/RubyLouvre/avalon.bootstrap) 欢迎大家踊跃参与
 4. fix IE下onchange与oninput无法共存的BUG

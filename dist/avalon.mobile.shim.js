@@ -2633,6 +2633,12 @@ function scanTag(elem, vmodels, node) {
         createSignalTower(elem, newVmodel)
     }
     scanAttr(elem, vmodels) //扫描特性节点
+
+    if (newVmodel) {
+        setTimeout(function () {
+            newVmodel.$fire("ms-scan-end", elem)
+        })
+    }
 }
 var rhasHtml = /\|\s*html(?:\b|$)/,
     r11a = /\|\|/g,

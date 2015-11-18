@@ -391,9 +391,9 @@ function getCaret(ctrl) {
 function setCaret(ctrl, begin, end) {
     if (!ctrl.value || ctrl.readOnly)
         return
-    if (ctrl.createTextRange) {//IE6-9
+    if (ctrl.createTextRange) {//IE6-8
         var range = ctrl.createTextRange()
-        range.collapse(true);
+        range.collapse(true)
         range.moveStart("character", begin)
         range.select()
     } else {
