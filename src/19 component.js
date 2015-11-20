@@ -45,7 +45,7 @@ avalon.component = function (name, opts) {
                     return
                 }
                 var elemOpts = getOptionsFromTag(elem, host.vmodels)
-                var vmOpts = getOptionsFromVM(host.vmodels, elemOpts.config || host.widget)
+                var vmOpts = getOptionsFromVM(host.vmodels, elemOpts.config || host.fullName)
                 var $id = elemOpts.$id || elemOpts.identifier || generateID(widget)
                 delete elemOpts.config
                 delete elemOpts.$id
