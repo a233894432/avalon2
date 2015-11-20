@@ -1,29 +1,56 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8">
-        <title></title>
-        <style>
-            div {height:50px;width:200px;background:green;margin:5px;}
-        </style>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="avalon.js"></script>
+    </head>
+    <body>
         <script>
-            avalon.component('ms:abc',{
-                $template:'<div></div>',
-                onClick:function(){},
-                $ready:function(vm,el){
-                  console.log(vm.$id)
-                }
-            });
             var vm = avalon.define({
-                $id:'test',
-                arr:[1,2,3,4,5]
+                $id: "test",
+                array: [1, 2,3],
+                $skipArray: ["x0", "x1", "x2"],
+                x0: {//x0, x1, x2为ms:button的配置对象
+                    a: "aaa",
+                    "ms:text": {//这个为ms:button的ms:text的默认配置对象
+                        b: 44
+                    }
+                },
+                x1: {
+                    a: "222",
+                    "ms:text": {
+                        b: 55
+                    }
+                },
+                x2: {
+                    a: "333",
+                    "ms:text": {
+                        b: 66
+                    }
+                }
+            })
+ 
+            avalon.component("ms:button", {
+                a: 1,
+                $replace: 1,
+                $ready: function (vm, elem) {
+                    console.log("BUTTON构建完成")
+                },
+                $template: "<button type='button'><span>|<ms:text></ms:text>|</span>{{a}}<ms:text/></button>"
+            })
+            avalon.component("ms:text", {
+                b: "默认值",
+                $replace: 1,
+                $ready: function () {
+                    console.log("TEXT构建完成")
+                },
+                $template: "<strong>{{b}}</strong>"
             })
         </script>
-    </head>
-    <body ms-controller="test">
-        <header>
-            <ms:abc ms-repeat="arr" ms-if-loop='$index > 1' ms-attr-identifier="abc{{$index}}" ></ms:abc>
-        </header>
+        <div ms-controller="test">
+            <ms:button ms-repeat="array" ms-attr-config="x{{$index}}" ></ms:button>
+        </div>
+ 
     </body>
 </html>

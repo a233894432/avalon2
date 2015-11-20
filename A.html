@@ -1,28 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Document</title>
-</head>
-<body>
-    <div class="demo" ms-controller="rank">
-        <a ms-attr-href="abc.html?id={{id}}">链接</a>
-        <a href="abc.html?id=2">链接</a>
-        <a href="abc.html?id=2">链接</a>
-        <ul>
-            <li ms-repeat="data">这里是内容_${{el}}</li>
-        </ul>
-    </div>
-    <!-- 1.5.5 | build 2015-11-09 -->
-    <script src="avalon.js"></script>
-    <script>
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+    </head>
+    <body>
 
-        var rank = avalon.define({
-            $id:'rank',
-            data:avalon.range(5),
-            id:1
-        });
+        <script src="jquery.js"></script>
+        <script src="avalon.js"></script>
+        <script>
 
-    </script>
-</body>
+            var rank = avalon.define({
+                $id: 'test',
+                aaa: 1,
+                change: function (a) {
+                    console.log(a)
+                }
+            });
+            $(function () {
+                $("input[ms-duplex]").on("input.duplex", function (e, a) {
+                    console.log(e, a)
+                })
+            })
+        </script>
+        <div  ms-controller="test">
+            <input ms-duplex="aaa" data-duplex-changed="change">
+        </div>
+    </body>
 </html>
