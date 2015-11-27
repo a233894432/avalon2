@@ -5,7 +5,7 @@
  http://weibo.com/jslouvre/
  
  Released under the MIT license
- avalon.js 1.5.5 built in 2015.11.20
+ avalon.js 1.5.5 built in 2015.11.27
  support IE6+ and other browsers
  ==================================================*/
 (function(global, factory) {
@@ -3516,7 +3516,7 @@ avalon.component = function (name, opts) {
                     var cssText = elem.style.cssText
                     var className = elem.className
                     elem = host.element = child
-                    elem.style.cssText = cssText
+                    elem.style.cssText += ";"+ cssText
                     if (className) {
                         avalon(elem).addClass(className)
                     }

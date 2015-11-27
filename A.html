@@ -4,27 +4,49 @@
         <meta charset="UTF-8">
         <title>Document</title>
     </head>
-    <body>
+    <body ms-controller="testContent">
 
-        <script src="jquery.js"></script>
-        <script src="avalon.js"></script>
-        <script>
 
-            var rank = avalon.define({
-                $id: 'test',
-                aaa: 1,
-                change: function (a) {
-                    console.log(a)
-                }
-            });
-            $(function () {
-                $("input[ms-duplex]").on("input.duplex", function (e, a) {
-                    console.log(e, a)
-                })
-            })
-        </script>
-        <div  ms-controller="test">
-            <input ms-duplex="aaa" data-duplex-changed="change">
-        </div>
+
+        <script src="avalon.js"></script>;
+
+        <input type="button" value="点击" ms-click="testClick()">
+        <div ms-repeat="dataArr">
+            <div class="thumb" >
+                <img width="60" height="60" alt="" ms-if="el._type==1" ms-src="el.value">
+                <span ms-if="el._type==2">{{el.value}}</span> 
+            </div>
+
+            <script type="text/javascript">
+    var testArr = [{
+            _type: 1,
+            value: "http://www.godgiftgame.com/static/images/mater/fu.png"
+        }, {
+            _type: 2,
+            value: "司徒正美"
+        }, {
+            _type: 1,
+            value: "http://www.godgiftgame.com/static/images/mater/bird1.png"
+        }, {
+            _type: 2,
+            value: "司徒正美"
+        }];
+    var testModel = avalon.define({
+        $id: "testContent",
+        dataArr: testArr,
+        testClick: function () {
+            testModel.dataArr = [{
+                    _type: 2,
+                    value: "司徒正美"
+                }, {
+                    _type: 1,
+                    value: "http://www.godgiftgame.com/static/images/mater/fu.png"
+                }, {
+                    _type: 2,
+                    value: "司徒正美"
+                }];
+        }
+    });
+            </script>
     </body>
 </html>

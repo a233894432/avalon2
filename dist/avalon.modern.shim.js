@@ -5,7 +5,7 @@
  http://weibo.com/jslouvre/
  
  Released under the MIT license
- avalon.modern.shim.js 1.5.5 built in 2015.11.19
+ avalon.modern.shim.js 1.5.5 built in 2015.11.27
  support IE10+ and other browsers
  ==================================================*/
 (function(global, factory) {
@@ -2875,7 +2875,7 @@ avalon.component = function (name, opts) {
                     var cssText = elem.style.cssText
                     var className = elem.className
                     elem = host.element = child
-                    elem.style.cssText = cssText
+                    elem.style.cssText += ";"+ cssText
                     if (className) {
                         avalon(elem).addClass(className)
                     }
@@ -3248,10 +3248,11 @@ var duplexBinding = avalon.directive("duplex", {
                 old && old()
             }
         }
-        var composing = false
+
         function callback(value) {
             binding.changed.call(this, value, binding)
         }
+        var composing = false
         function compositionStart() {
             composing = true
         }
