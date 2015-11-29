@@ -30,11 +30,11 @@ avalon.component = function (name, opts) {
             (function (host, hooks, elem, widget) {
                 //如果elem已从Document里移除,直接返回
                 //issuse : https://github.com/RubyLouvre/avalon2/issues/40
-                if (!avalon.contains(DOC, elem)) {
+                if (!avalon.contains(DOC, elem) || elem.msResolved) {
                     avalon.Array.remove(componentQueue, host)
                     return
                 }
-                
+  
                 var dependencies = 1
                 var library = host.library
                 var global = avalon.libraries[library] || componentHooks
@@ -75,7 +75,7 @@ avalon.component = function (name, opts) {
                 delete componentDefinition.$construct
 
                 var vmodel = avalon.define(componentDefinition) || {}
-                elem.msResolved = 1
+                elem.msResolved = 1 //防止二进扫描此元素
                 vmodel.$init(vmodel, elem)
                 global.$init(vmodel, elem)
                 var nodes = elem.childNodes
@@ -168,7 +168,6 @@ avalon.component = function (name, opts) {
                     }
                 })
                 scanTag(elem, [vmodel].concat(host.vmodels))
-
                 avalon.vmodels[vmodel.$id] = vmodel
                 if (!elem.childNodes.length) {
                     avalon.fireDom(elem, "datasetchanged", {library: library, vm: vmodel, childReady: -1})

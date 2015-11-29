@@ -5,7 +5,7 @@
  http://weibo.com/jslouvre/
  
  Released under the MIT license
- avalon.shim.js 1.5.5 built in 2015.11.27
+ avalon.shim.js 1.5.6 built in 2015.11.30
  support IE6+ and other browsers
  ==================================================*/
 (function(global, factory) {
@@ -283,7 +283,7 @@ function _number(a, len) { //用于模拟slice, splice的效果
 avalon.mix({
     rword: rword,
     subscribers: subscribers,
-    version: 1.55,
+    version: 1.56,
     ui: {},
     log: log,
     slice: W3C ? function (nodes, start, end) {
@@ -940,6 +940,7 @@ function $watch(expr, binding) {
     var $events = this.$events || (this.$events = {})
 
     var queue = $events[expr] || ($events[expr] = [])
+
     if (typeof binding === "function") {
         var backup = binding
         backup.uniqueNumber = Math.random()
@@ -955,7 +956,7 @@ function $watch(expr, binding) {
     }
 
     if (!binding.update) {
-        if (/\w\.*\B/.test(expr)) {
+        if (/\w\.*\B/.test(expr) || expr === "*") {
             binding.getter = noop
             var host = this
             binding.update = function () {
@@ -988,6 +989,14 @@ function $emit(key, args) {
         }
         var arr = event[key]
         notifySubscribers(arr, args)
+        if (args && event["*"] && !/\./.test(key)) {
+            for (var sub, k = 0; sub = event["*"][k++]; ) {
+                try {
+                    sub.handler.apply(this, args)
+                } catch (e) {
+                }
+            }
+        }
         var parent = this.$up
         if (parent) {
             if (this.$pathname) {
@@ -998,10 +1007,10 @@ function $emit(key, args) {
         }
     } else {
         parent = this.$up
-       
-        if(this.$ups ){
-            for(var i in this.$ups){
-                $emit.call(this.$ups[i], i+"."+key, args)//以确切的值往上冒泡
+
+        if (this.$ups) {
+            for (var i in this.$ups) {
+                $emit.call(this.$ups[i], i + "." + key, args)//以确切的值往上冒泡
             }
             return
         }
@@ -3428,11 +3437,11 @@ avalon.component = function (name, opts) {
             (function (host, hooks, elem, widget) {
                 //如果elem已从Document里移除,直接返回
                 //issuse : https://github.com/RubyLouvre/avalon2/issues/40
-                if (!avalon.contains(DOC, elem)) {
+                if (!avalon.contains(DOC, elem) || elem.msResolved) {
                     avalon.Array.remove(componentQueue, host)
                     return
                 }
-                
+  
                 var dependencies = 1
                 var library = host.library
                 var global = avalon.libraries[library] || componentHooks
@@ -3473,7 +3482,7 @@ avalon.component = function (name, opts) {
                 delete componentDefinition.$construct
 
                 var vmodel = avalon.define(componentDefinition) || {}
-                elem.msResolved = 1
+                elem.msResolved = 1 //防止二进扫描此元素
                 vmodel.$init(vmodel, elem)
                 global.$init(vmodel, elem)
                 var nodes = elem.childNodes
@@ -3566,7 +3575,6 @@ avalon.component = function (name, opts) {
                     }
                 })
                 scanTag(elem, [vmodel].concat(host.vmodels))
-
                 avalon.vmodels[vmodel.$id] = vmodel
                 if (!elem.childNodes.length) {
                     avalon.fireDom(elem, "datasetchanged", {library: library, vm: vmodel, childReady: -1})
@@ -5798,66 +5806,38 @@ new function() {// jshint ignore:line
     filters.date.locate = locate
 }// jshint ignore:line
 /*********************************************************************
- *                           DOMReady                               *
+ *                     END                                  *
  **********************************************************************/
-
-var readyList = [],
-    isReady
-var fireReady = function (fn) {
-    isReady = true
-    var require = avalon.require
-    if (require && require.checkDeps) {
-        modules["domReady!"].state = 4
-        require.checkDeps()
-    }
-    while (fn = readyList.shift()) {
-        fn(avalon)
-    }
-}
-
-function doScrollCheck() {
-    try { //IE下通过doScrollCheck检测DOM树是否建完
-        root.doScroll("left")
-        fireReady()
-    } catch (e) {
-        setTimeout(doScrollCheck)
-    }
-}
-
-if (DOC.readyState === "complete") {
-    setTimeout(fireReady) //如果在domReady之外加载
-} else if (W3C) {
-    DOC.addEventListener("DOMContentLoaded", fireReady)
-} else {
-    DOC.attachEvent("onreadystatechange", function () {
-        if (DOC.readyState === "complete") {
-            fireReady()
-        }
+new function () {
+    avalon.config({
+        loader: false
     })
-    try {
-        var isTop = window.frameElement === null
-    } catch (e) {}
-    if (root.doScroll && isTop && window.external) { //fix IE iframe BUG
-        doScrollCheck()
+    var fns = [], loaded = DOC.readyState === "complete", fn
+    function flush(f) {
+        loaded = 1
+        while (f = fns.shift())
+            f()
     }
-}
-avalon.bind(window, "load", fireReady)
 
-avalon.ready = function (fn) {
-    if (!isReady) {
-        readyList.push(fn)
-    } else {
-        fn(avalon)
+    avalon.bind(DOC, "DOMContentLoaded", fn = function () {
+        avalon.unbind(DOC, "DOMContentLoaded", fn)
+        flush()
+    })
+
+    var id = setInterval(function () {
+        if (document.readyState === "complete" && document.body) {
+            clearInterval(id)
+            flush()
+        }
+    }, 50)
+
+    avalon.ready = function (fn) {
+        loaded ? fn(avalon) : fns.push(fn)
     }
+    avalon.ready(function () {
+        avalon.scan(DOC.body)
+    })
 }
-
-avalon.config({
-    loader: true
-})
-
-avalon.ready(function () {
-    avalon.scan(DOC.body)
-})
 
 
 // Register as a named AMD module, since avalon can be concatenated with other

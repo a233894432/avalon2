@@ -1,52 +1,109 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
+        <title>TODO supply a title</title>
         <meta charset="UTF-8">
-        <title>Document</title>
+        <meta name="viewport" content="width=device-width">
+        <script src="avalon.js" ></script>
+        <script>
+            var vm = avalon.define({
+                $id: "test",
+                a: true,
+                b: true,
+                c: "",
+                d: "",
+                e: 10,
+                f: true,
+                g: ["b", "c"],
+                h: [1, 4],
+                i: [false],
+                j: "2222",
+                k: 2222,
+                l: false,
+                m: ["bbbb", "dddd"],
+                n: [11, 44],
+                msg: ""
+            });
+            vm.$watch("*", function (a, b, c) {
+                if (!/^avalon\-/.test(a) && c !== "msg") {
+                    vm.msg = c + "的值由[" + (typeof b) + "]" + b + "变成[" + (typeof a) + "]" + a
+                }
+            })
+
+        </script>
     </head>
-    <body ms-controller="testContent">
-
-
-
-        <script src="avalon.js"></script>;
-
-        <input type="button" value="点击" ms-click="testClick()">
-        <div ms-repeat="dataArr">
-            <div class="thumb" >
-                <img width="60" height="60" alt="" ms-if="el._type==1" ms-src="el.value">
-                <span ms-if="el._type==2">{{el.value}}</span> 
-            </div>
-
-            <script type="text/javascript">
-    var testArr = [{
-            _type: 1,
-            value: "http://www.godgiftgame.com/static/images/mater/fu.png"
-        }, {
-            _type: 2,
-            value: "司徒正美"
-        }, {
-            _type: 1,
-            value: "http://www.godgiftgame.com/static/images/mater/bird1.png"
-        }, {
-            _type: 2,
-            value: "司徒正美"
-        }];
-    var testModel = avalon.define({
-        $id: "testContent",
-        dataArr: testArr,
-        testClick: function () {
-            testModel.dataArr = [{
-                    _type: 2,
-                    value: "司徒正美"
-                }, {
-                    _type: 1,
-                    value: "http://www.godgiftgame.com/static/images/mater/fu.png"
-                }, {
-                    _type: 2,
-                    value: "司徒正美"
-                }];
-        }
-    });
-            </script>
+    <body>
+        <div ms-controller="test">
+            <h3 style="text-align: center">ms-duplex 2.0</h3>
+            <table>
+                <tr>
+                    <td>
+                        <p>ms-duplex-checked<input ms-duplex-checked="a" type="radio" />{{a}}</p>
+                        <p>ms-duplex-checked<input ms-duplex-checked="b" type="checkbox"/>{{b}}</p>
+                        <p>ms-duplex-string<input ms-duplex="c" />{{c}}</p>
+                        <p>ms-duplex-string<input ms-duplex-string="d" />{{d}}</p>
+                        <p>ms-duplex-number<input ms-duplex-number="e" />{{e}}</p>
+                        <p>ms-duplex-boolean<input ms-duplex-boolean="f" data-duplex-event="change" />{{f}}</p>
+                    </td>
+                    <td>
+                        <p>ms-duplex-string
+                            <input ms-duplex-string="g" type="checkbox" value="a" />
+                            <input ms-duplex-string="g" type="checkbox" value="b" />
+                            <input ms-duplex-string="g" type="checkbox" value="c" />
+                            <input ms-duplex-string="g" type="checkbox" value="d" />
+                            {{g}}</p>
+                        <p>ms-duplex-number
+                            <input ms-duplex-number="h" type="checkbox" value="1" />
+                            <input ms-duplex-number="h" type="checkbox" value="2" />
+                            <input ms-duplex-number="h" type="checkbox" value="3" />
+                            <input ms-duplex-number="h" type="checkbox" value="4" />
+                            {{h}}</p>
+                        <p>ms-duplex-boolean
+                            <input ms-duplex-boolean="i" type="checkbox" value="false" />
+                            <input ms-duplex-boolean="i" type="checkbox" value="true" />
+                            {{i}}</p>
+                        <p>ms-duplex-string/ms-duplex
+                            <select ms-duplex="j">
+                                <option>1111</option>
+                                <option>2222</option>
+                                <option>3333</option>
+                            </select>
+                        </p>
+                        <p>ms-duplex-number
+                            <select ms-duplex-number="k">
+                                <option>1111</option>
+                                <option>2222</option>
+                                <option>3333</option>
+                            </select>
+                        </p>
+                        <p>ms-duplex-boolean
+                            <select ms-duplex-boolean="l">
+                                <option>true</option>
+                                <option>false</option>
+                            </select>
+                        </p>
+                    </td>
+                    <td>
+                        <p>ms-duplex-string/ms-duplex<br/>
+                            <select ms-duplex="m" multiple>
+                                <option>aaaa</option>
+                                <option>bbbb</option>
+                                <option>cccc</option>
+                                <option>dddd</option>
+                            </select>
+                        </p>
+                        <p>ms-duplex-number<br/>
+                            <select ms-duplex-number="n" multiple>
+                                <option>11</option>
+                                <option>22</option>
+                                <option>33</option>
+                                <option>44</option>
+                            </select>
+                        </p>
+                    </td>
+                </tr>
+            </table>
+            <p>{{msg}}</p>
+        </div>
     </body>
 </html>

@@ -35,7 +35,7 @@ gulp.task('combo', function () {
             return !/\$\$|noop|modern|next|observe|touch/.test(f)
         })
 
-        var version = '1.5.5' //当前版本号
+        var version = '1.5.6' //当前版本号
         var now = new Date  //构建日期
         var date = now.getFullYear() + "." + (now.getMonth() + 1) + "." + now.getDate()
         gulp.src(compatibleFiles)
@@ -61,7 +61,7 @@ gulp.task('combo', function () {
 
         var shimFiles = compatibleFiles.map(function (el) {
 
-            return /domReady/.test(el) ? el.replace("domRedy", "domReady.noop") : el
+            return /domReady/.test(el) ? el.replace("domReady", "domReady.noop") : el
         }).filter(function (el) {
             return !/loader/.test(el)
         })

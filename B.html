@@ -1,56 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Title</title>
         <script src="avalon.js"></script>
+    
     </head>
-    <body>
-        <script>
-            var vm = avalon.define({
-                $id: "test",
-                array: [1, 2,3],
-                $skipArray: ["x0", "x1", "x2"],
-                x0: {//x0, x1, x2为ms:button的配置对象
-                    a: "aaa",
-                    "ms:text": {//这个为ms:button的ms:text的默认配置对象
-                        b: 44
-                    }
+    <body ms-controller="halo">
+    <bk:table config="config"></bk:table>
+    <script>
+        console.log("1111111")
+            avalon.library("bk", {
+                $init: function () {
                 },
-                x1: {
-                    a: "222",
-                    "ms:text": {
-                        b: 55
-                    }
+                $childReady: function () {
                 },
-                x2: {
-                    a: "333",
-                    "ms:text": {
-                        b: 66
-                    }
-                }
-            })
- 
-            avalon.component("ms:button", {
-                a: 1,
-                $replace: 1,
-                $ready: function (vm, elem) {
-                    console.log("BUTTON构建完成")
-                },
-                $template: "<button type='button'><span>|<ms:text></ms:text>|</span>{{a}}<ms:text/></button>"
-            })
-            avalon.component("ms:text", {
-                b: "默认值",
-                $replace: 1,
                 $ready: function () {
-                    console.log("TEXT构建完成")
                 },
-                $template: "<strong>{{b}}</strong>"
-            })
+                $dispose: function () {
+                }
+            });
+            avalon.component("bk:table", {
+                ll: 123,
+                $ready: function () {
+                    console.log("table")
+                },
+                $template: "{{ll}}"
+            });
+
+            var halo = avalon.define({
+                $id: "halo",
+                config: {
+                    ll: 123123
+                }
+            });
+            avalon.scan();
         </script>
-        <div ms-controller="test">
-            <ms:button ms-repeat="array" ms-attr-config="x{{$index}}" ></ms:button>
-        </div>
- 
-    </body>
+</body>
 </html>
