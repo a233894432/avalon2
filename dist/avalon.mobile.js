@@ -1408,7 +1408,11 @@ avalon.injectBinding = function (binding) {
                 if (binding.type === "on") {
                     a = binding.getter + ""
                 } else {
-                    a = binding.getter.apply(0, binding.args)
+                    try {
+                        a = binding.getter.apply(0, binding.args)
+                    } catch (ex) {
+                        a = null
+                    }
                 }
             } else {
                 a = args[0]
