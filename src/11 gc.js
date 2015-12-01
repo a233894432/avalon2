@@ -1,6 +1,7 @@
 /*********************************************************************
  *                          定时GC回收机制                             *
  **********************************************************************/
+
 var disposeCount = 0
 var disposeQueue = avalon.$$subscribers = []
 var beginTime = new Date()
@@ -106,5 +107,3 @@ function shouldDispose(el) {
     }
     return el.msRetain ? 0 : (el.nodeType === 1 ? !root.contains(el) : !avalon.contains(root, el))
 }
-
-

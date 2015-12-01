@@ -1,6 +1,7 @@
 /*********************************************************************
- *                           依赖调度系统                             *
+ *                           依赖调度系统                              *
  **********************************************************************/
+
 //检测两个对象间的依赖关系
 var dependencyDetection = (function () {
     var outerFrames = []
@@ -22,6 +23,7 @@ var dependencyDetection = (function () {
         }
     };
 })()
+
 //将绑定对象注入到其依赖项的订阅数组中
 var roneval = /^on$/
 
@@ -105,7 +107,6 @@ avalon.injectBinding = function (binding) {
     binding.update()
 }
 
-
 //将依赖项(比它高层的访问器或构建视图刷新函数的绑定对象)注入到订阅者数组
 function injectDependency(list, binding) {
     if (binding.oneTime)
@@ -117,7 +118,6 @@ function injectDependency(list, binding) {
         }
     }
 }
-
 
 function getProxyIds(a, isArray) {
     var ret = []

@@ -1,6 +1,7 @@
 /*********************************************************************
- *                    全局变量及方法                                  *
+ *                    全局变量及方法                                   *
  **********************************************************************/
+
 var expose = Date.now()
 //http://stackoverflow.com/questions/7290086/javascript-use-strict-and-nicks-find-global-function
 var DOC = window.document
@@ -14,6 +15,7 @@ function log() {
         console.log.apply(console, arguments)
     }
 }
+
 /**
  * Creates a new object without a prototype. This object is useful for lookup without having to
  * guard against prototypically inherited properties via hasOwnProperty.

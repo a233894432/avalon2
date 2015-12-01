@@ -198,5 +198,3 @@ if (DOC.onmousewheel === void 0) {
         }
     }
 }
-
-

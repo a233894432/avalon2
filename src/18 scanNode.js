@@ -3,8 +3,12 @@ function scanNodeList(parent, vmodels) {
     scanNodeArray(nodes, vmodels)
 }
 
-
 function scanNodeArray(nodes, vmodels) {
+    function _delay_component(name) {
+        setTimeout(function () {
+            avalon.component(name)
+        })
+    }
     for (var i = 0, node; node = nodes[i++]; ) {
         switch (node.nodeType) {
             case 1:
@@ -23,11 +27,8 @@ function scanNodeArray(nodes, vmodels) {
                             name: "widget"
                         })
                         if (avalon.components[fullName]) {
-                            (function (name) {//确保所有ms-attr-name扫描完再处理
-                                setTimeout(function () {
-                                    avalon.component(name)
-                                })
-                            })(fullName)
+                            //确保所有ms-attr-name扫描完再处理
+                            _delay_component(fullName)
                         }
                     }
                 }
@@ -50,4 +51,3 @@ function scanNodeArray(nodes, vmodels) {
 
     }
 }
-

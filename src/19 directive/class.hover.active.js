@@ -65,4 +65,3 @@ avalon.directive("class", {
 "hover,active".replace(rword, function (name) {
     directives[name] = directives["class"]
 })
-

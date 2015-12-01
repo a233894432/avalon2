@@ -1,6 +1,7 @@
 /*********************************************************************
- *                             自带过滤器                            *
+ *                             自带过滤器                             *
  **********************************************************************/
+
 var rscripts = /<script[^>]*>([\S\s]*?)<\/script\s*>/gim
 var ron = /\s+(on[^=\s]+)(?:=("[^"]*"|'[^']*'|[^\s>]+))?/g
 var ropen = /<\w+\b(?:(["'])[^"]*?(\1)|[^>])*>/ig
@@ -14,10 +15,10 @@ var rnoalphanumeric = /([^\#-~| |!])/g;
 
 function numberFormat(number, decimals, point, thousands) {
     //form http://phpjs.org/functions/number_format/
-    //number	必需，要格式化的数字
-    //decimals	可选，规定多少个小数位。
-    //point	可选，规定用作小数点的字符串（默认为 . ）。
-    //thousands	可选，规定用作千位分隔符的字符串（默认为 , ），如果设置了该参数，那么所有其他参数都是必需的。
+    //number 必需，要格式化的数字
+    //decimals 可选，规定多少个小数位。
+    //point 可选，规定用作小数点的字符串（默认为 . ）。
+    //thousands 可选，规定用作千位分隔符的字符串（默认为 , ），如果设置了该参数，那么所有其他参数都是必需的。
     number = (number + '')
             .replace(/[^0-9+\-Ee.]/g, '')
     var n = !isFinite(+number) ? 0 : +number,
@@ -44,7 +45,6 @@ function numberFormat(number, decimals, point, thousands) {
     }
     return s.join(dec)
 }
-
 
 var filters = avalon.filters = {
     uppercase: function(str) {
@@ -112,6 +112,7 @@ var filters = avalon.filters = {
     },
     number: numberFormat
 }
+
 /*
  'yyyy': 4 digit representation of year (e.g. AD 1 => 0001, AD 2010 => 2010)
  'yy': 2 digit representation of year, padded (00-99). (e.g. AD 2001 => 01, AD 2010 => 10)

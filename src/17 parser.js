@@ -10,13 +10,13 @@ var keys = ["break,case,catch,continue,debugger,default,delete,do,else,false",
 keys.replace(/\w+/g, function (a) {
     keyMap[a] = true
 })
+
 var ridentStart = /[a-z_$]/i
 var rwhiteSpace = /[\s\uFEFF\xA0]/
 function getIdent(input, lastIndex) {
     var result = []
     var subroutine = !!lastIndex
     lastIndex = lastIndex || 0
-
     //将表达式中的标识符抽取出来
     var state = "unknown"
     var variable = ""
@@ -100,12 +100,14 @@ function getIdent(input, lastIndex) {
     addVar(result, variable)
     return result
 }
+
 function addVar(array, element) {
     if (element && !keyMap[element]) {
         array.push(element)
         return true
     }
 }
+
 function addAssign(vars, vmodel, name, binding) {
     var ret = [],
             prefix = " = " + name + "."
@@ -127,6 +129,7 @@ function addAssign(vars, vmodel, name, binding) {
     }
     return ret
 }
+
 var rproxy = /(\$proxy\$[a-z]+)\d+$/
 var variablePool = new Cache(218)
 //缓存求值函数，以便多次利用
@@ -229,7 +232,6 @@ function parseExpr(expr, vmodels, binding) {
     return  evaluatorPool.put(exprId, getter)
 
 }
-//========
 
 function normalizeExpr(code) {
     var hasExpr = rexpr.test(code) //比如ms-class="width{{w}}"的情况

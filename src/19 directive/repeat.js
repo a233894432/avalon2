@@ -120,7 +120,7 @@ avalon.directive("repeat", {
             }
 
             //重写proxy
-            if (this.enterCount === 1) {// 防止多次进入,导致位置不对
+            if (this.enterCount === 1) {//防止多次进入,导致位置不对
                 proxy.$active = false
                 proxy.$oldIndex = proxy.$index
                 proxy.$active = true
@@ -133,7 +133,7 @@ avalon.directive("repeat", {
                 proxy.$last = i === length - 1
                 // proxy[param] = value[i]
             } else {
-                proxy.$val = toJson(value[keyOrId]) // 这里是处理vm.object = newObject的情况 
+                proxy.$val = toJson(value[keyOrId]) //这里是处理vm.object = newObject的情况 
             }
             proxies.push(proxy)
         }
@@ -184,7 +184,7 @@ avalon.directive("repeat", {
                 } else if (proxy.$index !== proxy.$oldIndex) {
                     (function (proxy2, preElement) {
                         staggerIndex = mayStaggerAnimate(binding.effectEnterStagger, function () {
-                            var curNode = removeItem(proxy2.$anchor)// 如果位置被挪动了
+                            var curNode = removeItem(proxy2.$anchor)//如果位置被挪动了
                             var inserted = avalon.slice(curNode.childNodes)
                             parent.insertBefore(curNode, preElement.nextSibling)
                             animateRepeat(inserted, 1, binding)

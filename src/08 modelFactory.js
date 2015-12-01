@@ -86,7 +86,6 @@ function observeObject(source, options) {
         }
     }
 
-
     for (name in source) {
         var value = source[name]
         if (!$$skipArray[name])
@@ -125,7 +124,6 @@ function observeObject(source, options) {
             }
         }
     }
-
 
     accessors["$model"] = $modelDescriptor
     $vmodel = defineProperties($vmodel, accessors, source)
@@ -178,6 +176,7 @@ function observeObject(source, options) {
     $vmodel.$active = true
     return $vmodel
 }
+
 /*
  新的VM拥有如下私有属性
  $id: vm.id
@@ -264,6 +263,7 @@ function observe(obj, old, hasReturn, watch) {
         return obj
     }
 }
+
 var getKeys = rnative.test(Object.key) ? Object.key : function (a) {
     var ret = []
     for (var i in a) {
@@ -273,8 +273,9 @@ var getKeys = rnative.test(Object.key) ? Object.key : function (a) {
     }
     return ret
 }
+
 function observeArray(array, old, watch) {
-    if (old) {
+    if (old && old.splice) {
         var args = [0, old.length].concat(array)
         old.splice.apply(old, args)
         return old
@@ -361,4 +362,3 @@ var $modelDescriptor = {
     enumerable: false,
     configurable: true
 }
-

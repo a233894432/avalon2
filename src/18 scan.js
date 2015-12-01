@@ -23,7 +23,6 @@ function checkScan(elem, callback, innerHTML) {
     })
 }
 
-
 function createSignalTower(elem, vmodel) {
     var id = elem.getAttribute("avalonctrl") || vmodel.$id
     elem.setAttribute("avalonctrl", id)
@@ -83,7 +82,6 @@ var obsoleteAttrs = oneObject("value,title,alt,checked,selected,disabled,readonl
 function bindingSorter(a, b) {
     return a.priority - b.priority
 }
-
 
 var rnoCollect = /^(ms-\S+|data-\S+|on[a-z]+|id|style|class)$/
 var ronattr = /^on\-[\w-]+$/

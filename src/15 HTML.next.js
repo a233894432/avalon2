@@ -1,6 +1,7 @@
 /************************************************************************
- *              HTML处理(parseHTML, innerHTML, clearHTML)                 *
- **************************************************************************/
+ *              HTML处理(parseHTML, innerHTML, clearHTML)                *
+ *************************************************************************/
+ 
 //parseHTML的辅助变量
 var svgHooks = {
     g: DOC.createElementNS("http://www.w3.org/2000/svg", "svg")
@@ -14,6 +15,7 @@ var rxhtml = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)
 var scriptTypes = oneObject(["", "text/javascript", "text/ecmascript", "application/ecmascript", "application/javascript"])
 var script = DOC.createElement("script")
 var rhtml = /<|&#?\w+;/
+
 avalon.parseHTML = function (html) {
     var fragment = avalonFragment.cloneNode(false)
     if (typeof html !== "string" ) {

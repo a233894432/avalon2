@@ -135,4 +135,3 @@ if (!W3C) {
         return attrPool.put(str, attributes)
     }
 }
-

@@ -1,6 +1,7 @@
 /*********************************************************************
  *                 avalon的静态方法定义区                              *
  **********************************************************************/
+
 avalon.init = function (el) {
     this[0] = this.element = el
 }
@@ -16,7 +17,7 @@ avalon.type = function (obj) { //取得目标的类型
             typeof obj
 }
 
-var isFunction = typeof alert === "object" ? function (fn) {
+avalon.isFunction = typeof alert === "object" ? function (fn) {
     try {
         return /^\s*\bfunction\b/.test(fn + "")
     } catch (e) {
@@ -25,7 +26,6 @@ var isFunction = typeof alert === "object" ? function (fn) {
 } : function (fn) {
     return serialize.call(fn) === "[object Function]"
 }
-avalon.isFunction = isFunction
 
 avalon.isWindow = function (obj) {
     if (!obj)
@@ -41,11 +41,13 @@ function isWindow(obj) {
 if (isWindow(window)) {
     avalon.isWindow = isWindow
 }
-var enu
+
+var enu, enumerateBUG
 for (enu in avalon({})) {
     break
 }
-var enumerateBUG = enu !== "0" //IE6下为true, 其他为false
+enumerateBUG = enu !== "0" //IE6下为true, 其他为false
+
 /*判定是否是一个朴素的javascript对象（Object），不是DOM对象，不是BOM对象，不是自定义类的实例*/
 avalon.isPlainObject = function (obj, key) {
     if (!obj || avalon.type(obj) !== "object" || obj.nodeType || avalon.isWindow(obj)) {
@@ -73,6 +75,7 @@ if (rnative.test(Object.getPrototypeOf)) {
         return serialize.call(obj) === "[object Object]" && Object.getPrototypeOf(obj) === oproto
     }
 }
+
 //与jQuery.extend方法，可用于浅拷贝，深拷贝
 avalon.mix = avalon.fn.mix = function () {
     var options, name, src, copy, copyIsArray, clone,
@@ -89,7 +92,7 @@ avalon.mix = avalon.fn.mix = function () {
     }
 
     //确保接受方为一个复杂的数据类型
-    if (typeof target !== "object" && !isFunction(target)) {
+    if (typeof target !== "object" && !avalon.isFunction(target)) {
         target = {}
     }
 

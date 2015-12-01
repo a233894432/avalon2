@@ -1,6 +1,7 @@
 /*********************************************************************
  *                           DOM 底层补丁                             *
  **********************************************************************/
+
 //safari5+是把contains方法放在Element.prototype上而不是Node.prototype
 if (!DOC.contains) {
     Node.prototype.contains = function (arg) {

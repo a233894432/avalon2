@@ -1,6 +1,7 @@
 /*********************************************************************
- *                      AMD加载器                                   *
+ *                      AMD加载器                                     *
  **********************************************************************/
+
 //https://www.devbridge.com/articles/understanding-amd-requirejs/
 //http://maxogden.com/nested-dependencies.html
 var modules = avalon.modules = {

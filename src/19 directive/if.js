@@ -56,7 +56,7 @@ avalon.directive("if", {
                     elem.required = false
                     elem.setAttribute("_required", "true")
                 }
-                try {// 如果不支持querySelectorAll或:required,可以直接无视
+                try {//如果不支持querySelectorAll或:required,可以直接无视
                     avalon.each(elem.querySelectorAll(":required"), function (el) {
                         elem.required = false
                         el.setAttribute("_required", "true")
@@ -91,5 +91,3 @@ avalon.directive("if", {
         }
     }
 })
-
-

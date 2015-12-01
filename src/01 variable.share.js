@@ -1,4 +1,3 @@
-
 var subscribers = "$" + expose
 
 var nullObject = {} //作用类似于noop，只用于代码防御，千万不要在它上面添加属性
@@ -19,10 +18,16 @@ var class2type = {}
 "Boolean Number String Function Array Date RegExp Object Error".replace(rword, function (name) {
     class2type["[object " + name + "]"] = name.toLowerCase()
 })
-function scpCompile(array){
-    return Function.apply(noop,array)
+
+var IEVersion = NaN
+if (window.VBArray) {
+    IEVersion = document.documentMode || (window.XMLHttpRequest ? 7 : 6)
 }
+
 function noop(){}
+function scpCompile(array){
+    return Function.apply(noop, array)
+}
 
 function oneObject(array, val) {
     if (typeof array === "string") {
@@ -41,20 +46,10 @@ var generateID = function (prefix) {
     prefix = prefix || "avalon"
     return String(Math.random() + Math.random()).replace(/\d\.\d{4}/, prefix)
 }
-function IE() {
-    if (window.VBArray) {
-        var mode = document.documentMode
-        return mode ? mode : window.XMLHttpRequest ? 7 : 6
-    } else {
-        return NaN
-    }
-}
-var IEVersion = IE()
 
 avalon = function (el) { //创建jQuery式的无new 实例化结构
     return new avalon.init(el)
 }
-
 
 /*视浏览器情况采用最快的异步回调*/
 avalon.nextTick = new function () {// jshint ignore:line

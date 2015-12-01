@@ -74,6 +74,7 @@ var newProto = {
         return this.removeAll()
     }
 }
+
 var _splice = arrayProto.splice
 arrayMethods.forEach(function (method) {
     var original = arrayProto[method]

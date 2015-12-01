@@ -180,7 +180,7 @@ function upperFirstChar(str) {
 }
 var effectBuffer = new Buffer()
 function Effect() {
-}// 动画实例,做成类的形式,是为了共用所有原型方法
+}//动画实例,做成类的形式,是为了共用所有原型方法
 
 Effect.prototype = {
     contrustor: Effect,
@@ -203,7 +203,7 @@ Effect.prototype = {
         callEffectHook(me, "abort" + upperFirstChar(oppositeName))
         callEffectHook(me, "before" + upperFirstChar(name))
         if (!isLeave)
-            before(el) //  这里可能做插入DOM树的操作,因此必须在修改类名前执行
+            before(el) //这里可能做插入DOM树的操作,因此必须在修改类名前执行
         var cssCallback = function (cancel) {
             el.removeEventListener(me.cssEvent, me.cssCallback)
             if (isLeave) {
@@ -321,4 +321,3 @@ avalon.mix(avalon.effect, {
         }, after, opts)
     }
 })
-
