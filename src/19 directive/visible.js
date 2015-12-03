@@ -25,7 +25,7 @@ avalon.directive("visible", {
         var binding = this, elem = this.element, stamp
         var noEffect = !this.effectName
         if (!this.stamp) {
-            stamp = this.stamp = +new Date
+            stamp = this.stamp = +new Date()
             if (val) {
                 elem.style.display = binding.display || ""
                 if (avalon(elem).css("display") === "none") {
@@ -36,7 +36,7 @@ avalon.directive("visible", {
             }
             return
         }
-        stamp = this.stamp = +new Date
+        stamp = this.stamp = +new Date()
         if (val) {
             avalon.effect.apply(elem, 1, function () {
                 if (stamp !== binding.stamp)

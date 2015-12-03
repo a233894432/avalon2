@@ -1,6 +1,7 @@
 /************************************************************************
- *            HTML处理(parseHTML, innerHTML, clearHTML)                  *
- ************************************************************************/
+ *              HTML处理(parseHTML, innerHTML, clearHTML)                *
+ *************************************************************************/
+
 // We have to close these tags to support XHTML
 var tagHooks = {
     area: [1, "<map>", "</map>"],
@@ -21,6 +22,7 @@ tagHooks.tbody = tagHooks.tfoot = tagHooks.colgroup = tagHooks.caption = tagHook
 String("circle,defs,ellipse,image,line,path,polygon,polyline,rect,symbol,text,use").replace(rword, function (tag) {
     tagHooks[tag] = tagHooks.g //处理SVG
 })
+
 var rtagName = /<([\w:]+)/ //取得其tagName
 var rxhtml = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/ig
 var rcreate = W3C ? /[^\d\D]/ : /(<(?:script|link|style|meta|noscript))/ig
@@ -28,6 +30,7 @@ var scriptTypes = oneObject(["", "text/javascript", "text/ecmascript", "applicat
 var rnest = /<(?:tb|td|tf|th|tr|col|opt|leg|cap|area)/ //需要处理套嵌关系的标签
 var script = DOC.createElement("script")
 var rhtml = /<|&#?\w+;/
+
 avalon.parseHTML = function (html) {
     var fragment = avalonFragment.cloneNode(false)
     if (typeof html !== "string") {
@@ -110,6 +113,7 @@ function fixVML(node) {
         node.style.zoom = 1 //hasLayout
     }
 }
+
 avalon.innerHTML = function (node, html) {
     if (!W3C && (!rcreate.test(html) && !rnest.test(html))) {
         try {
@@ -120,6 +124,7 @@ avalon.innerHTML = function (node, html) {
     var a = this.parseHTML(html)
     this.clearHTML(node).appendChild(a)
 }
+
 avalon.clearHTML = function (node) {
     node.textContent = ""
     while (node.firstChild) {

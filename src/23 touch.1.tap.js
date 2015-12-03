@@ -112,7 +112,7 @@ var tapRecognizer = {
     }
   },
   touchHasMoved: function(event) {
-    // 判定是否发生移动,其阀值是10px
+    //判定是否发生移动,其阀值是10px
     var touch = event.changedTouches[0],
       boundary = tapRecognizer.touchBoundary
     return Math.abs(touch.pageX - tapRecognizer.touchStartX) > boundary ||

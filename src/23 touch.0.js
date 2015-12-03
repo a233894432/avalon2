@@ -77,7 +77,6 @@ var Recognizer = avalon.gestureHooks = {
                     pointer.duration = RECORD_DURATION - time
                 }
 
-
                 pointer.duration += time;
                 pointer.lastTouch = mixLocations({}, touch)
 
@@ -168,8 +167,6 @@ var Recognizer = avalon.gestureHooks = {
     }
 }
 
-
-
 var locations = ['screenX', 'screenY', 'clientX', 'clientY', 'pageX', 'pageY']
 
 // 复制 touch 对象上的有用属性到固定对象上
@@ -181,6 +178,3 @@ function mixLocations(target, source) {
     }
     return target
 }
-
-
-  

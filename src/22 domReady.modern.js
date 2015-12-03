@@ -1,6 +1,7 @@
 /*********************************************************************
- *                    DOMReady                                         *
+ *                    DOMReady                                       *
  **********************************************************************/
+
 var readyList = [],
     isReady
 var fireReady = function (fn) {
@@ -15,7 +16,6 @@ var fireReady = function (fn) {
     }
 }
 
-
 if (DOC.readyState === "complete") {
     setTimeout(fireReady) //如果在domReady之外加载
 } else {
@@ -29,6 +29,7 @@ avalon.ready = function (fn) {
         fn(avalon)
     }
 }
+
 avalon.config({
     loader: true
 })

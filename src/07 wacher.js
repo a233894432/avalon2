@@ -93,7 +93,6 @@ function $emit(key, args) {
     }
 }
 
-
 function collectDependency(el, key) {
     do {
         if (el.$watch) {
@@ -111,7 +110,6 @@ function collectDependency(el, key) {
 
     } while (true)
 }
-
 
 function notifySubscribers(subs, args) {
     if (!subs)

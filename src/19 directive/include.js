@@ -116,7 +116,7 @@ avalon.directive("include", {
                     return nodesToFrag(nodes)
                 }
             } else {
-                before = function () {// 新添加元素的动画 
+                before = function () {//新添加元素的动画
                     target.insertBefore(fragment, binding.end)
                     scanNodeArray(nodes, vmodels)
                 }

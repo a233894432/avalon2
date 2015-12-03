@@ -1,4 +1,3 @@
-
 // https://github.com/rsms/js-lru
 var Cache = new function() {// jshint ignore:line
     function LRU(maxLength) {

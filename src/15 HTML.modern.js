@@ -1,6 +1,7 @@
 /************************************************************************
- *              HTML处理(parseHTML, innerHTML, clearHTML)                 *
- **************************************************************************/
+ *              HTML处理(parseHTML, innerHTML, clearHTML)                *
+ *************************************************************************/
+
 //parseHTML的辅助变量
 var tagHooks = new function() {// jshint ignore:line
     avalon.mix(this, {
@@ -18,15 +19,16 @@ var tagHooks = new function() {// jshint ignore:line
     this.tbody = this.tfoot = this.colgroup = this.caption = this.thead
     this.th = this.td
 }// jshint ignore:line
-
 String("circle,defs,ellipse,image,line,path,polygon,polyline,rect,symbol,text,use").replace(rword, function(tag) {
     tagHooks[tag] = tagHooks.g //处理SVG
 })
+
 var rtagName = /<([\w:]+)/
 var rxhtml = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/ig
 var scriptTypes = oneObject(["", "text/javascript", "text/ecmascript", "application/ecmascript", "application/javascript"])
 var script = DOC.createElement("script")
 var rhtml = /<|&#?\w+;/
+
 avalon.parseHTML = function(html) {
     var fragment = avalonFragment.cloneNode(false)
     if (typeof html !== "string" ) {

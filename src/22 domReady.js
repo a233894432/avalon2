@@ -1,5 +1,5 @@
 /*********************************************************************
- *                           DOMReady                               *
+ *                           DOMReady                                *
  **********************************************************************/
 
 var readyList = [],
@@ -55,7 +55,6 @@ avalon.ready = function (fn) {
 avalon.config({
     loader: true
 })
-
 avalon.ready(function () {
     avalon.scan(DOC.body)
 })

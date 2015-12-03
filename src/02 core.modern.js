@@ -1,6 +1,7 @@
 /*********************************************************************
  *                 avalon的静态方法定义区                              *
  **********************************************************************/
+
 avalon.init = function (el) {
     this[0] = this.element = el
 }
@@ -16,18 +17,15 @@ avalon.type = function (obj) { //取得目标的类型
             typeof obj
 }
 
-var isFunction = function (fn) {
+avalon.isFunction = function (fn) {
     return serialize.call(fn) === "[object Function]"
 }
-
-avalon.isFunction = isFunction
 
 avalon.isWindow = function (obj) {
     return rwindow.test(serialize.call(obj))
 }
 
 /*判定是否是一个朴素的javascript对象（Object），不是DOM对象，不是BOM对象，不是自定义类的实例*/
-
 avalon.isPlainObject = function (obj) {
     // 简单的 typeof obj === "object"检测，会致使用isPlainObject(window)在opera下通不过
     return serialize.call(obj) === "[object Object]" && Object.getPrototypeOf(obj) === oproto
@@ -49,7 +47,7 @@ avalon.mix = avalon.fn.mix = function () {
     }
 
     //确保接受方为一个复杂的数据类型
-    if (typeof target !== "object" && !isFunction(target)) {
+    if (typeof target !== "object" && !avalon.isFunction(target)) {
         target = {}
     }
 
@@ -89,10 +87,6 @@ avalon.mix = avalon.fn.mix = function () {
     return target
 }
 
-function _number(a, len) { //用于模拟slice, splice的效果
-    a = Math.floor(a) || 0
-    return a < 0 ? Math.max(len + a, 0) : Math.min(a, len);
-}
 avalon.mix({
     rword: rword,
     subscribers: subscribers,
@@ -244,9 +238,9 @@ var directives = avalon.directives = {}
 avalon.directive = function (name, obj) {
     bindingHandlers[name] = obj.init = (obj.init || noop)
     bindingExecutors[name] = obj.update = (obj.update || noop)
-
     return directives[name] = obj
 }
+
 /*判定是否类数组，如节点集合，纯数组，arguments与拥有非负整数的length属性的纯JS对象*/
 function isArrayLike(obj) {
     if (obj && typeof obj === "object") {

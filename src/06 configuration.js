@@ -17,6 +17,8 @@ function kernel(settings) {
     }
     return this
 }
+avalon.config = kernel
+
 var openTag, closeTag, rexpr, rexprg, rbind, rregexp = /[-.*+?^${}()|[\]\/\\]/g
 
 function escapeRegExp(target) {
@@ -47,11 +49,11 @@ var plugins = {
         rbind = new RegExp(o + ".*?" + c + "|\\sms-")
     }
 }
-kernel.async =true
-kernel.debug = true
 kernel.plugins = plugins
 kernel.plugins['interpolate'](["{{", "}}"])
+
+kernel.async =true
+kernel.debug = true
 kernel.paths = {}
 kernel.shim = {}
 kernel.maxRepeatSize = 100
-avalon.config = kernel

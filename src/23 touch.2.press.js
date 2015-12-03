@@ -1,4 +1,3 @@
-
 var pressRecognizer = {
     events: ['longtap', 'doubletap'],
     cancelPress: function (pointer) {

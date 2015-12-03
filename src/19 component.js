@@ -16,7 +16,6 @@ var componentHooks = {
     }
 }
 
-
 avalon.components = {}
 avalon.component = function (name, opts) {
     if (opts) {
@@ -91,7 +90,6 @@ avalon.component = function (name, opts) {
                         }
                     }
                 }
-
 
                 if (vmodel.$$template) {
                     avalon.clearHTML(elem)
@@ -178,9 +176,7 @@ avalon.component = function (name, opts) {
                     }, 17)
                 }
 
-
             })(obj, avalon.components[name], obj.element, obj.widget)// jshint ignore:line
-
 
         }
     }
@@ -200,8 +196,6 @@ function getOptionsFromVM(vmodels, pre) {
     return {}
 }
 
-
-
 avalon.libraries = []
 avalon.library = function (name, opts) {
     if (DOC.namespaces) {
@@ -215,6 +209,7 @@ avalon.library = function (name, opts) {
 }
 
 avalon.library("ms")
+
 /*
  broswer  nodeName  scopeName  localName
  IE9     ONI:BUTTON oni        button
@@ -235,4 +230,3 @@ function isWidget(el) { //如果为自定义标签,返回UI库的名字
 }
 //各种MVVM框架在大型表格下的性能测试
 // https://github.com/RubyLouvre/avalon/issues/859
-

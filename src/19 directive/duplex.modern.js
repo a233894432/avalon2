@@ -55,7 +55,6 @@ var duplexBinding = avalon.directive("duplex", {
                 old && old()
             }
         }
-
         function callback(value) {
             binding.changed.call(this, value, binding)
         }

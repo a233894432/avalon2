@@ -1,5 +1,3 @@
-
-
 //使用来自游戏界的双缓冲技术,减少对视图的冗余刷新
 var Buffer = function () {
     this.queue = []

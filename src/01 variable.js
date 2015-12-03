@@ -1,6 +1,7 @@
 /*********************************************************************
- *                    全局变量及方法                                  *
+ *                    全局变量及方法                                   *
  **********************************************************************/
+
 var expose = new Date() - 0
 //http://stackoverflow.com/questions/7290086/javascript-use-strict-and-nicks-find-global-function
 var DOC = window.document
@@ -11,7 +12,7 @@ ifGroup.setAttribute("ms-skip", "1")
 ifGroup.className = "avalonHide"
 var rnative = /\[native code\]/ //判定是否原生函数
 function log() {
-    if (window.console && avalon.config.debug) {
+    if (window.console && kernel.debug) {
         // http://stackoverflow.com/questions/8785624/how-to-safely-wrap-console-log
         Function.apply.call(console.log, console, arguments)
     }

@@ -46,4 +46,3 @@ var swipeRecognizer = {
 
 swipeRecognizer.touchcancel = swipeRecognizer.touchend
 Recognizer.add('swipe', swipeRecognizer)
-
