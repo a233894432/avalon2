@@ -160,7 +160,6 @@ function parseExpr(expr, vmodels, binding) {
     }
 
     var vars = getVars(expr)
-
     var expose = new Date() - 0
     var assigns = []
     var names = []
@@ -230,7 +229,6 @@ function parseExpr(expr, vmodels, binding) {
     /* jshint ignore:end */
 
     return evaluatorPool.put(exprId, getter)
-
 }
 
 function normalizeExpr(code) {
