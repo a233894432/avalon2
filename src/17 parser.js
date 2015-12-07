@@ -229,7 +229,7 @@ function parseExpr(expr, vmodels, binding) {
             assigns.join(",\n") + expr))
     /* jshint ignore:end */
 
-    return  evaluatorPool.put(exprId, getter)
+    return evaluatorPool.put(exprId, getter)
 
 }
 
@@ -272,7 +272,6 @@ function parseFilter(filters) {
                 return '",'
             }) + "]"
     /* jshint ignore:start */
-    return  scpCompile(["return [" + filters + "]"])()
+    return scpCompile(["return [" + filters + "]"])()
     /* jshint ignore:end */
-
 }
