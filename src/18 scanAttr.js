@@ -40,10 +40,8 @@ function scanAttr(elem, vmodels, match) {
                             priority: (directives[type].priority || type.charCodeAt(0) * 10) + (Number(param.replace(/\D/g, "")) || 0)
                         }
                         if (type === "html" || type === "text") {
-
                             var filters = getToken(value).filters
                             binding.expr = binding.expr.replace(filters, "")
-
                             binding.filters = filters.replace(rhasHtml, function () {
                                 binding.type = "html"
                                 binding.group = 1

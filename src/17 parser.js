@@ -117,12 +117,10 @@ function addAssign(vars, vmodel, name, binding) {
         while (a = arr.shift()) {
             if (vmodel.hasOwnProperty(a)) {
                 ret.push(first + prefix + first)
-
                 binding.observers.push({
                     v: vmodel,
                     p: prop
                 })
-
                 vars.splice(i, 1)
             }
         }
