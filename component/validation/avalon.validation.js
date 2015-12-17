@@ -421,35 +421,6 @@ define(["avalon", "../mmPromise/mmPromise"], function(avalon) {
         }
       })
       //<input type="number" max=x min=y step=z/> <input type="range" max=x min=y step=z/>
-    function fixEvent(event) {
-      if (event.target) {
-        return event
-      }
-      var ret = {}
-      for (var i in event) {
-        ret[i] = event[i]
-      }
-      var target = ret.target = event.srcElement
-      if (event.type.indexOf("key") === 0) {
-        ret.which = event.charCode != null ? event.charCode : event.keyCode
-      } else if (/mouse|click/.test(event.type)) {
-        var doc = target.ownerDocument || document
-        var box = doc.compatMode === "BackCompat" ? doc.body : doc.documentElement
-        ret.pageX = event.clientX + (box.scrollLeft >> 0) - (box.clientLeft >> 0)
-        ret.pageY = event.clientY + (box.scrollTop >> 0) - (box.clientTop >> 0)
-        ret.wheelDeltaY = ret.wheelDelta
-        ret.wheelDeltaX = 0
-      }
-      ret.timeStamp = new Date - 0
-      ret.originalEvent = event
-      ret.preventDefault = function() { //阻止默认行为
-        event.returnValue = false
-      }
-      ret.stopPropagation = function() { //阻止事件在DOM树中的传播
-        event.cancelBubble = true
-      }
-      return ret
-    }
 
     function fixEvent(event) {
       if (event.target) {
@@ -480,6 +451,7 @@ define(["avalon", "../mmPromise/mmPromise"], function(avalon) {
       }
       return ret
     }
+
     //<oni:validation></oni:validation>
     var onSubmitCallback
     var _interface = function() {}
