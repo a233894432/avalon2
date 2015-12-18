@@ -5,7 +5,7 @@
  http://weibo.com/jslouvre/
  
  Released under the MIT license
- avalon.mobile.js 1.5.6 built in 2015.12.1
+ avalon.mobile.js 1.5.6 built in 2015.12.19
  mobile
  ==================================================*/
 (function(global, factory) {
@@ -1405,16 +1405,11 @@ avalon.injectBinding = function (binding) {
                 if (binding.type === "on") {
                     a = binding.getter + ""
                 } else {
-                    try {
-                        a = binding.getter.apply(0, binding.args)
-                    } catch (ex) {
-                        a = null
-                    }
+                    a = binding.getter.apply(0, binding.args)
                 }
             } else {
                 a = args[0]
                 b = args[1]
-
             }
             b = typeof b === "undefined" ? binding.oldValue : b
             if (binding._filters) {
@@ -1480,7 +1475,7 @@ function getProxyIds(a, isArray) {
  *                          定时GC回收机制                             *
  **********************************************************************/
 
-var disposeCount = 0
+var disposeCount = 1
 var disposeQueue = avalon.$$subscribers = []
 var beginTime = new Date()
 var oldInfo = {}
@@ -1496,7 +1491,7 @@ function getUid(data) { //IE9+,标准浏览器
                 data.uniqueNumber = data.name + "-" + getUid(elem)
             }
         } else {
-            data.uniqueNumber = ++disposeCount
+            data.uniqueNumber = "_"+(++disposeCount)
         }
     }
     return data.uniqueNumber
@@ -1507,7 +1502,7 @@ function injectDisposeQueue(data, list) {
     var lists = data.lists || (data.lists = [])
     var uuid = getUid(data)
     avalon.Array.ensure(lists, list)
-    list.$uuid = list.$uuid || generateID()
+    //list.$uuid = list.$uuid || generateID()
     if (!disposeQueue[uuid]) {
         disposeQueue[uuid] = 1
         disposeQueue.push(data)

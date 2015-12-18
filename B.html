@@ -1,40 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
     <head>
-        <meta charset="UTF-8">
-        <title>Title</title>
-        <script src="avalon.js"></script>
-    
-    </head>
-    <body ms-controller="halo">
-    <bk:table config="config"></bk:table>
-    <script>
-        console.log("1111111")
-            avalon.library("bk", {
-                $init: function () {
-                },
-                $childReady: function () {
-                },
-                $ready: function () {
-                },
-                $dispose: function () {
-                }
-            });
-            avalon.component("bk:table", {
-                ll: 123,
-                $ready: function () {
-                    console.log("table")
-                },
-                $template: "{{ll}}"
-            });
-
-            var halo = avalon.define({
-                $id: "halo",
-                config: {
-                    ll: 123123
-                }
-            });
-            avalon.scan();
+        <meta charset="utf-8">
+        <script type="text/javascript" src="avalon.js"></script>
+        <script>
+            var vm = avalon.define({
+                $id: 'test',
+                name: "名字",
+                answer: "短笛"
+            })
         </script>
-</body>
+    </head>
+    <body class="ms-controller" ms-controller="test">
+
+
+        <div>我的{{name}}叫{{answer}},他的{{name}}叫{{no}},{{10*10}}</div>
+        <p ms-text="name"></p> <p ms-text="no"></p>
+
+    </body>
+
 </html>
