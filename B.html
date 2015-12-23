@@ -4,18 +4,21 @@
         <meta charset="utf-8">
         <script type="text/javascript" src="avalon.js"></script>
         <script>
+            var store = {
+                val: "xxx"
+            }
             var vm = avalon.define({
                 $id: 'test',
-                name: "名字",
-                answer: "短笛"
+                name: store.val
+            })
+            vm.$watch("name", function (a) {
+                store.val = a
+                console.log(store)
             })
         </script>
     </head>
-    <body class="ms-controller" ms-controller="test">
-
-
-        <div>我的{{name}}叫{{answer}},他的{{name}}叫{{no}},{{10*10}}</div>
-        <p ms-text="name"></p> <p ms-text="no"></p>
+    <body  ms-controller="test">
+        <input ms-duplex="name" />{{name}}
 
     </body>
 
