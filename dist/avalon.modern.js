@@ -5,7 +5,7 @@
  http://weibo.com/jslouvre/
  
  Released under the MIT license
- avalon.modern.js 1.5.6 built in 2015.12.27
+ avalon.modern.js 1.5.6 built in 2015.12.28
  support IE10+ and other browsers
  ==================================================*/
 (function(global, factory) {
@@ -4464,7 +4464,13 @@ function shimController(data, transation, proxy, fragments, init) {
     var nodes = avalon.slice(content.childNodes)
     content.appendChild(proxy.$anchor)
     init && transation.appendChild(content)
-    var nv = [proxy].concat(data.vmodels)
+    var itemName = data.param || "el"
+    var valueItem = proxy[itemName], nv
+    if(Object(valueItem) === valueItem){
+        nv = [proxy,valueItem].concat(data.vmodels)
+    }else{
+        nv = [proxy].concat(data.vmodels)
+    }
     var fragment = {
         nodes: nodes,
         vmodels: nv,

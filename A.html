@@ -1,20 +1,48 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <script src="avalon.js"></script>
-    </head>
-    <body ms-controller="test">
-    <input type="text" ms-attr-value="data"> {{data}}
-  
-    <script>
-  // 创建组件
-
-  // 定义vm
-  avalon.define({
-      $id: 'test',
-      data: 'text'
-  })
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript" src="avalon.js"></script>
+    <script type="text/javascript">
+        avalon.component("ms:test", {
+            str: "",
+            onClick: avalon.noop,
+            $template: '<div ms-click="onClick">{{ str }}</div>',
+            $ready: function (vm, el) {
+                console.log("component ready!");
+            }
+        });
+        var vm = avalon.define({
+            $id: "test",
+            arr1: [
+                {
+                    "ms:test": {
+                        str: "1.1",
+                        onClick: function () {
+                            console.log(1.1)
+                        }
+                    }
+                },
+                {
+                    "ms:test": {
+                        str: "1.2",
+                        onClick: function () {
+                            console.log(1.2)
+                        }
+                    }
+                }
+            ]
+       
+        });
+        avalon.ready(function () {
+            avalon.scan(document.body, vm);
+        });
     </script>
+</head>
+<body ms-controller="test">
+<h1>第一组</h1>
+<ms:test ms-repeat="arr1"></ms:test>
+
 </body>
 </html>
