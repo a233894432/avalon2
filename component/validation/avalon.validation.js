@@ -586,7 +586,6 @@ define(["avalon", "../mmPromise/mmPromise"], function(avalon) {
       },
       $ready: function(vm, element) {
         vm.validateAll = function(callback) {
-          avalon.log("validateAll"+callback)
           var fn = typeof callback === "function" ? callback : vm.onValidateAll
           var promise = vm.data.filter(function(data) {
             var el = data.element
@@ -680,7 +679,6 @@ define(["avalon", "../mmPromise/mmPromise"], function(avalon) {
               }
             }
             if (!isValidateAll) {
-                console.log("-----")
               if (reasons.length) {
                 vm.onError.call(elem, reasons, event)
               } else {           
