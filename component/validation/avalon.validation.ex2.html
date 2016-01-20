@@ -49,7 +49,7 @@
                 }
                 avalon.define({
                     $id: "test",
-                    $skipArray: ["validation"],
+                    $skipArray: ["vv"],
                     a: "",
                     b: "a",
                     c: "d",
@@ -60,7 +60,7 @@
                     reset: function () {
                         validationVM && validationVM.resetAll()
                     },
-                    validation: {
+                    vv: {
                         onInit: function (vm) {
                             validationVM = vm
                         },
@@ -96,7 +96,7 @@
     </head>
     <body>
         <form ms-controller="test">
-            <oni:validation $id='v' >
+            <oni:validation $id='v' config='vv' >
                 <h3>验证组件</h3>
                 <p>使用data-duplex-event="change"，延迟到失去焦点才验证</p>
                 <p><input ms-duplex-qq="a" data-duplex-event="change" placeholder="输入QQ号"></p>

@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width">
         <link type="text/css" rel="stylesheet" href="../style/avalon.doc.css">
     
-       <script src="../../avalon.js"></script>
+       <script src="../../avalon2.js"></script>
         <script src="../style/highlight/shCore.js"></script>
         <style >
             .error{
@@ -57,8 +57,8 @@
                     reset: function () {
                         validationVM && validationVM.resetAll()
                     },
-                    $skipArray:["validation"],
-                    validation: {
+                    $skipArray:["oni:validation"],
+                    "oni:validation": {
                         onInit: function(vm){
                             validationVM = vm
                         },
@@ -75,6 +75,7 @@
                             }, this)
                         },
                         onSuccess: function () {
+                            console.log("1111")
                             avalon(this).removeClass("error").addClass("success")
                             removeError(this)
                         },
