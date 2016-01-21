@@ -60,7 +60,6 @@
                     $skipArray:["oni:validation"],
                     "oni:validation": {
                         onInit: function(vm){
-                            console.log(vm)
                             validationVM = vm
                         },
                         onReset: function (e, data) {
@@ -70,13 +69,11 @@
                         },
                         onError: function (reasons) {
                             reasons.forEach(function (reason) {
-                                console.log(this)
                                 avalon(this).removeClass("success").addClass("error")
                                 showError(this, reason)
                             }, this)
                         },
                         onSuccess: function () {
-                            console.log("1111")
                             avalon(this).removeClass("error").addClass("success")
                             removeError(this)
                         },

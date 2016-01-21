@@ -5,7 +5,7 @@
  http://weibo.com/jslouvre/
  
  Released under the MIT license
- avalon.shim.js 1.5.6 built in 2015.12.28
+ avalon.shim.js 1.5.6 built in 2016.1.21
  support IE6+ and other browsers
  ==================================================*/
 (function(global, factory) {
@@ -570,11 +570,11 @@ if (!"司徒正美".trim) {
 }
 
 var hasDontEnumBug = !({
-            'toString': null
-        }).propertyIsEnumerable('toString'),
-    hasProtoEnumBug = (function () {
+    'toString': null
+}).propertyIsEnumerable('toString'),
+        hasProtoEnumBug = (function () {
         }).propertyIsEnumerable('prototype'),
-    dontEnums = [
+        dontEnums = [
             "toString",
             "toLocaleString",
             "valueOf",
@@ -583,7 +583,7 @@ var hasDontEnumBug = !({
             "propertyIsEnumerable",
             "constructor"
         ],
-    dontEnumsLength = dontEnums.length;
+        dontEnumsLength = dontEnums.length;
 
 if (!Object.keys) {
     Object.keys = function (object) { //ecma262v5 15.2.3.14
@@ -639,6 +639,12 @@ if (!noop.bind) {
 }
 
 if (!rnative.test([].map)) {
+    var iterator = function (vars, body, ret) {
+        var fun = 'for(var ' + vars + 'i=0,n = this.length; i < n; i++){' + body.replace('_', '((i in this) && fn.call(scope,this[i],i,this))') + '}' + ret
+        /* jshint ignore:start */
+        return Function("fn,scope", fun)
+        /* jshint ignore:end */
+    }
     avalon.mix(ap, {
         //定位操作，返回数组中第一个等于给定参数的元素的索引值。
         indexOf: function (item, index) {
@@ -673,12 +679,7 @@ if (!rnative.test([].map)) {
         //只有数组中的元素都满足条件（放进给定函数返回true），它才返回true。Prototype.js的对应名字为all。
         every: iterator("", 'if(!_)return false', 'return true')
     })
-    var iterator = function(vars, body, ret) {
-        var fun = 'for(var ' + vars + 'i=0,n = this.length; i < n; i++){' + body.replace('_', '((i in this) && fn.call(scope,this[i],i,this))') + '}' + ret
-        /* jshint ignore:start */
-        return Function("fn,scope", fun)
-        /* jshint ignore:end */
-    }
+
 }
 
 /*********************************************************************
@@ -931,9 +932,9 @@ var plugins = {
             kernel.closeTag = closeTag
         var o = escapeRegExp(openTag),
                 c = escapeRegExp(closeTag)
-        rexpr = new RegExp(o + "(.*?)" + c)
-        rexprg = new RegExp(o + "(.*?)" + c, "g")
-        rbind = new RegExp(o + ".*?" + c + "|\\sms-")
+        rexpr = new RegExp(o + "([\\s\\S]*)" + c)
+        rexprg = new RegExp(o + "([\\s\\S]*)" + c, "g")
+        rbind = new RegExp(o + "[\\s\\S]*" + c + "|\\sms-")
     }
 }
 kernel.plugins = plugins
@@ -1617,16 +1618,16 @@ var newProto = {
                 if (all.indexOf(this[i]) !== -1) {
                     _splice.call(this.$track, i, 1)
                     _splice.call(this, i, 1)
-                    
+
                 }
             }
         } else if (typeof all === "function") {
             for (i = this.length - 1; i >= 0; i--) {
                 var el = this[i]
                 if (all(el, i)) {
-                     _splice.call(this.$track, i, 1)
+                    _splice.call(this.$track, i, 1)
                     _splice.call(this, i, 1)
-                   
+
                 }
             }
         } else {
@@ -1641,7 +1642,8 @@ var newProto = {
         this._.length = this.length
     },
     clear: function () {
-        return this.removeAll()
+        this.removeAll()
+        return this
     }
 }
 
@@ -1863,7 +1865,7 @@ function getProxyIds(a, isArray) {
 }
 
 /*********************************************************************
- *                          定时GC回收机制                             *
+ *                     定时GC回收机制 (基于1.6基于频率的GC)                *
  **********************************************************************/
 
 var disposeQueue = avalon.$$subscribers = []
@@ -1872,60 +1874,54 @@ var oldInfo = {}
 
 //添加到回收列队中
 function injectDisposeQueue(data, list) {
-    var lists = data.lists || (data.lists = [])
-    if(!data.uuid){
-       data.uuid =  "_"+(++bindingID)
+    data.list = list
+    data.i = ~~data.i
+    if (!data.uuid) {
+        data.uuid = "_" + (++bindingID)
     }
-    avalon.Array.ensure(lists, list)
     if (!disposeQueue[data.uuid]) {
         disposeQueue[data.uuid] = "__"
         disposeQueue.push(data)
     }
 }
 
+var lastGCIndex = 0
 function rejectDisposeQueue(data) {
-    var i = disposeQueue.length
-    var n = i
-    var allTypes = []
-    var iffishTypes = {}
-    var newInfo = {}
-    //对页面上所有绑定对象进行分门别类, 只检测个数发生变化的类型
+    var i = lastGCIndex || disposeQueue.length
+    var threshold = 0
     while (data = disposeQueue[--i]) {
-        var type = data.type
-        if (newInfo[type]) {
-            newInfo[type]++
-        } else {
-            newInfo[type] = 1
-            allTypes.push(type)
-        }
-    }
-    var diff = false
-    allTypes.forEach(function (type) {
-        if (oldInfo[type] !== newInfo[type]) {
-            iffishTypes[type] = 1
-            diff = true
-        }
-    })
-    i = n
-    if (diff) {
-        while (data = disposeQueue[--i]) {
+        if (data.i < 7) {
             if (data.element === null) {
                 disposeQueue.splice(i, 1)
+                if (data.list) {
+                    avalon.Array.remove(data.list, data)
+                    delete disposeQueue[data.uuid]
+                }
                 continue
             }
-            if (iffishTypes[data.type] && shouldDispose(data.element)) { //如果它没有在DOM树
+            if (shouldDispose(data.element)) { //如果它的虚拟DOM不在VTree上或其属性不在VM上
                 disposeQueue.splice(i, 1)
-                delete disposeQueue[data.uuid]
-                var lists = data.lists
-                for (var k = 0, list; list = lists[k++]; ) {
-                    avalon.Array.remove(lists, list)
-                    avalon.Array.remove(list, data)
-                }
+                avalon.Array.remove(data.list, data)
                 disposeData(data)
+                //avalon会在每次全量更新时,比较上次执行时间,
+                //假若距离上次有半秒,就会发起一次GC,并且只检测当中的500个绑定
+                //而一个正常的页面不会超过2000个绑定(500即取其4分之一)
+                //用户频繁操作页面,那么2,3秒内就把所有绑定检测一遍,将无效的绑定移除
+                if (threshold++ > 500) {
+                    lastGCIndex = i
+                    break
+                }
+                continue
             }
+            data.i++
+            //基于检测频率，如果检测过7次，可以认为其是长久存在的节点，那么以后每7次才检测一次
+            if (data.i === 7) {
+                data.i = 14
+            }
+        } else {
+            data.i--
         }
     }
-    oldInfo = newInfo
     beginTime = new Date()
 }
 
@@ -3175,6 +3171,8 @@ if (!W3C) {
             return []
         }
         var str = html.match(rtag)[0]
+        if(str.slice(-1)===">")
+            str = str.slice(0,-1)
         var attributes = [],
                 k, v
         var ret = attrPool.get(str)
@@ -3187,7 +3185,6 @@ if (!W3C) {
                 v = (rquote.test(v) ? v.slice(1, -1) : v).replace(ramp, "&")
             }
             var name = k[1].toLowerCase()
-            match = name.match(rmsAttr)
             var binding = {
                 name: name,
                 specified: true,
@@ -3290,8 +3287,8 @@ var rhasHtml = /\|\s*html(?:\b|$)/,
     r11a = /\|\|/g,
     rlt = /&lt;/g,
     rgt = /&gt;/g,
-    rstringLiteral = /(['"])(\\\1|.)+?\1/g
-
+    rstringLiteral = /(['"])(\\\1|.)+?\1/g,
+    rline = /\r?\n/g
 function getToken(value) {
     if (value.indexOf("|") > 0) {
         var scapegoat = value.replace(rstringLiteral, function (_) {
@@ -3335,7 +3332,7 @@ function scanExpr(str) {
         }
         value = str.slice(start, stop)
         if (value) { //处理{{ }}插值表达式
-            tokens.push(getToken(value, start))
+            tokens.push(getToken(value.replace(rline,"")))
         }
         start = stop + closeTag.length
     } while (1)
@@ -5216,9 +5213,9 @@ function shimController(data, transation, proxy, fragments, init) {
     init && transation.appendChild(content)
     var itemName = data.param || "el"
     var valueItem = proxy[itemName], nv
-    if(Object(valueItem) === valueItem){
-        nv = [proxy,valueItem].concat(data.vmodels)
-    }else{
+    if (Object(valueItem) === valueItem) {
+        nv = [proxy, valueItem].concat(data.vmodels)
+    } else {
         nv = [proxy].concat(data.vmodels)
     }
     var fragment = {

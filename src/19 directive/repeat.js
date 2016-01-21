@@ -283,9 +283,9 @@ function shimController(data, transation, proxy, fragments, init) {
     init && transation.appendChild(content)
     var itemName = data.param || "el"
     var valueItem = proxy[itemName], nv
-    if(Object(valueItem) === valueItem){
-        nv = [proxy,valueItem].concat(data.vmodels)
-    }else{
+    if (Object(valueItem) === valueItem) {
+        nv = [proxy, valueItem].concat(data.vmodels)
+    } else {
         nv = [proxy].concat(data.vmodels)
     }
     var fragment = {

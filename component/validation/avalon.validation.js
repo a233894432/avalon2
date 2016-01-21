@@ -492,6 +492,7 @@ define(["avalon", "../mmPromise/mmPromise"], function(avalon) {
         vm.onInit(vm, element)
         //收集下方表单元素的数据
         vm.$watch("avalon-ms-duplex-init", function(data) {
+           // console.log(data)
           var inwardHooks = vm.validationHooks
           data.valueAccessor = function(a) {
             if (arguments.length) {
