@@ -48,7 +48,7 @@
                 }
                 avalon.define({
                     $id: "test",
-                    $skipArray: ["validation"],
+                    $skipArray: ["oni:validation"],
                     a: "",
                     b: "a",
                     c: "d",
@@ -59,7 +59,7 @@
                     reset: function () {
                         validationVM && validationVM.resetAll()
                     },
-                    validation: {
+                    "oni:validation": {
                         onInit: function (v) {
                             validationVM = v
                         },

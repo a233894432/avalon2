@@ -28,7 +28,7 @@
                 var validationVM
                 var v = avalon.define({
                     $id: "test",
-                    $skipArray: ["validation"],
+                    $skipArray: ["oni:validation"],
                     a: 'bbb',
                     b: ["4", "5"],
                     c: "5",
@@ -45,7 +45,7 @@
                     checkAll: function () {
                         validationVM && validationVM.validateAll()
                     },
-                    validation: {
+                    "oni:validation": {
                         validationHooks: {
                             checkfour1: {
                                 message: "要求a1 > a2 && a3 < a4",

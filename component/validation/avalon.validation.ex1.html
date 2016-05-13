@@ -57,8 +57,8 @@
                     reset: function () {
                         validationVM && validationVM.resetAll()
                     },
-                    $skipArray:["validation"],
-                    validation: {
+                    $skipArray:["oni:validation"],
+                    "oni:validation": {
                         onInit: function(vm){
                             validationVM = vm
                         },
@@ -69,7 +69,6 @@
                         },
                         onError: function (reasons) {
                             reasons.forEach(function (reason) {
-                                console.log(this)
                                 avalon(this).removeClass("success").addClass("error")
                                 showError(this, reason)
                             }, this)
